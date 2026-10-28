@@ -1,4 +1,4 @@
-# # Fábrica Harmonia Tarefa 5 (MC322)
+# Fábrica Harmonia Tarefa 5 (MC322)
 
 Simulador de uma fábrica de instrumentos musicais desenvolvido para a disciplina MC322 (Programação Orientada a Objetos). O sistema permite cadastrar demandas, aplicar estratégias de produção, gerenciar o estoque de matérias-primas e acompanhar a manutenção das máquinas.
 
