@@ -1,0 +1,57 @@
+JUSTIFICATIVA DA ESCOLHA DO TEMA
+
+Escolhi criar uma fábrica de instrumentos musicais porque gosto bastante de música e toco bateria 
+e guitarra desde pequeno. Como já tenho contato com instrumentos musicais, achei que esse seria um 
+tema interessante e divertido para desenvolver ao longo da disciplina. Nesse momento, já conseguimos
+trazer alguns conceitos da música, como entender que existem instrumentos destinados a cada tipo de
+situação, como para músicas eruditas, músicas gravadas em studios e músicas para shows.
+
+
+EXPANSÃO DO SISTEMA REALISTA (TAREFA 3)
+
+Nessa etapa dei pra cada estratégia de produção uma cara diferente dentro do tema, Ordem de Pedido
+segue a fila normal que seria esperado de uma loja, Maior Encomenda prioriza quem pediu mais instrumentos 
+de uma vez (que seria útil em casos de pedidos massivos como de escolas de música), e a Estratégia do Orçamento 
+escolhe a demanda que rende mais instrumentos dentro do dinheiro que sobrou em caixa.
+
+Os status de Demanda e Produto (que agora são enums em vez de String solta) seguem a lógica de uma
+oficina de verdade: um pedido fica pendente até entrar em produção, e um instrumento passa por
+processado, embalado, aprovado ou rejeitado igual passaria numa linha de montagem real.
+
+Também dá pra ver o desgaste das máquinas: elas vão perdendo saúde de tanto uso, ficam mais
+instáveis e podem até quebrar, precisando ser reparadas pelo menu de auditoria. Essa mesma auditoria
+usa uma interface (Auditavel) que tanto as máquinas quanto os instrumentos prontos implementam, então
+dá pra gerar um relatório da fábrica inteira sem se importar se é máquina ou produto.
+
+Os dois cenários pedidos, Ideal e Apocalíptico, mudam o orçamento inicial e o quanto as máquinas falham e se
+desgastam, então dá pra testar a fábrica tanto operando em casos padrões quanto em casos extremos.
+
+
+VISÃO DE EXPANSÃO FUTURA
+
+Nos próximos laboratórios, imagino expandir o projeto integrando a fábrica a uma loja de instrumentos musicais.
+Com um sistema que consigo controlar a produção pelo tempo e fazer pedidos simultâneos em diversas máquinas,
+controlar prioridade de pedidos. Por já estarmos conseguindo simular falhas e afins, sinto que essas implementações
+fariam o projeto se assemelhar mais com uma implementação real.
+
+GRADLE, JAVADOC E TRATAMENTO DE ERROS (TAREFA 4)
+
+Nessa etapa o projeto passou a ser construído e executado pelo Gradle (build, run e javadoc), com o
+wrapper incluído para não depender de nenhuma instalação na máquina de quem for avaliar.
+
+Para os erros, criei uma exceção base (FabricaException) e quatro específicas, uma para cada tipo de
+problema que a fábrica pode ter: entrada inválida, demanda inválida, falta de recurso e máquina
+indisponível. Não quis uma hierarquia grande, só o suficiente para o menu mostrar uma mensagem diferente
+para cada caso. O gerenciador valida tudo antes de mexer em estoque, orçamento ou demanda, então um erro
+nunca deixa a fábrica pela metade, e o Main só captura a exceção, explica o motivo e volta ao menu.
+
+
+COMPOSIÇÃO, FASES DE CONSTRUÇÃO E ACOPLAMENTO (TAREFA 5)
+
+Nessa etapa a máquina deixou de ser um objeto único e passou a ser formada por partes: um motor e um
+sensor de vibração (1:1) e uma lista de ferramentas de trabalho (1:N). É composição porque a própria
+máquina cria essas partes no construtor e elas não existem fora dela. Cada parte também muda o
+resultado: motor superaquecido ou sensor descalibrado aumentam a chance de falha, e ferramentas gastas
+pioram o instrumento. As máquinas ficam numa linha de produção, que é só uma agregação, já que a máquina
+existe fora da linha e poderia ir para outra. Pela Lei de Deméter, ninguém de fora acessa as partes.
+O diagrama UML está em docs/uml.
